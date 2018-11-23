@@ -1,13 +1,13 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
-import { toggleTodo } from '../actions'
+import { toggleTodo, setEditingTodo } from '../actions'
 
 import TodoListItem from './TodoListItem';
 
 
 
-const TodoList = ({ todos, dispatchToggleTodo }) => (
+const TodoList = ({ todos, dispatchToggleTodo, dispatchSetEditingTodo }) => (
   //   usando o ScrollView
   <ScrollView style={styles.container}>
     {todos.map(todo => (
@@ -15,6 +15,7 @@ const TodoList = ({ todos, dispatchToggleTodo }) => (
         key={todo.id} 
         todo={todo} 
         onPressTodo={()=> dispatchToggleTodo(todo.id)}
+        onLongPressTodo={()=> dispatchSetEditingTodo(todo)}
         />
     ))}
   </ScrollView>
@@ -32,5 +33,8 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps,
-  { dispatchToggleTodo: toggleTodo}
+  { 
+    dispatchToggleTodo: toggleTodo,
+    dispatchSetEditingTodo: setEditingTodo
+  }
 )(TodoList);

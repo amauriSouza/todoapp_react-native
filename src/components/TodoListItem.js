@@ -1,28 +1,44 @@
 import React from 'react';
-import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
 
-const TodoListItem = ({ todo, onPressTodo }) => (
-  <TouchableOpacity onPress={onPressTodo}>
-    <View style={styles.row}>
-      <Text style={[
-            styles.lineText,
-            todo.done ? styles.lineThrough : null
-            ]}>{todo.text}</Text>
-    </View>
+const TodoListItem = ({ todo, onPressTodo, onLongPressTodo }) => (
+  <TouchableOpacity onPress={onPressTodo} onLongPress={onLongPressTodo}>
+      <View style={styles.itemTask}>
+        <Text style={[styles.lineText, todo.done ? styles.lineThrough : null]}>
+          {todo.text}
+        </Text>
+      </View>
   </TouchableOpacity>
 );
 
 const styles = StyleSheet.create({
-  row: {
-    height: 60,
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderBottomWidth: 1,
-    borderBottomColor: '#ebebeb'
+  // row: {
+  //   height: 60,
+  //   flexDirection: 'row',
+  //   alignItems: 'center',
+  //   borderBottomWidth: 1,
+  //   borderBottomColor: '#ebebeb'
+  // },
+
+  // rowTex: {
+  //   flexDirection: 'row'
+  // },
+
+  itemTask: {
+    padding: 10,
+    borderRadius: 5,
+    elevation: 2,
+    backgroundColor: '#fff',
+    marginBottom: 10,
   },
 
   lineThrough: {
-    textDecorationLine: 'line-through', 
+    textDecorationLine: 'line-through',
     color: 'gray'
   },
 

@@ -1,33 +1,35 @@
 import React from 'react';
-import { View, Button, StyleSheet, Text } from 'react-native';
+import { View, Button, StyleSheet, Alert } from 'react-native';
 import { connect } from 'react-redux';
-import { addTodo } from '../actions';
+import { addTodo, setTodoText, updateTodo } from '../actions';
 
 import Header from './Header';
 import Input from './Input';
 
 class TodoForm extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      text: ''
-    };
-  }
-
   onChangeText(text) {
-    this.setState({
-      text
-    });
+    this.props.dispatchSetTodoText(text);
   }
 
   onPress() {
-    this.props.dispatchAddTodo(this.state.text);
-    this.setState({ text: '' });
+    const { todo } = this.props;
+    const { text } = todo;
+
+    if (text === '') {
+      Alert.alert('Aviso', 'Digite alguma tarefa!', [{ text: 'OK' }], {
+        cancelable: false
+      });
+    } else {
+      if (todo.id) {
+        this.props.dispatchUpdateTodo(todo);
+      } else {
+        this.props.dispatchAddTodo(text);
+      }
+    }
   }
 
   render() {
-    const { text } = this.state;
+    const { text, id } = this.props.todo;
     return (
       <View>
         <Header />
@@ -41,7 +43,7 @@ class TodoForm extends React.Component {
           <View>
             <Button
               onPress={() => this.onPress()}
-              title="Adicionar"
+              title={!id ? 'Adicionar' : 'Salvar'}
               color="#39bcd3"
             />
           </View>
@@ -57,7 +59,17 @@ const styles = StyleSheet.create({
   }
 });
 
+const mapStateToProps = state => {
+  return {
+    todo: state.editingTodo
+  };
+};
+
 export default connect(
-  null,
-  { dispatchAddTodo: addTodo }
+  mapStateToProps,
+  {
+    dispatchAddTodo: addTodo,
+    dispatchSetTodoText: setTodoText,
+    dispatchUpdateTodo: updateTodo
+  }
 )(TodoForm);

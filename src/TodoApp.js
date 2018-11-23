@@ -18,7 +18,7 @@ export default class TodoApp extends React.Component {
         <View>
           <TodoForm />
           <View style={styles.positionTitle}>
-            <Text style={styles.titleTasks}>Minhas Tarefas</Text>
+            <Text style={styles.titleTasks}>Tarefas</Text>
           </View>
           <TodoList/>
         </View>
@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 25
+    marginTop: 20,
+    marginBottom: 20
   }
 });
